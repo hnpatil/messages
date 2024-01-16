@@ -2,6 +2,7 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
 
@@ -15,5 +16,12 @@ func (User) Fields() []ent.Field {
 		field.String("last_name"),
 		field.String("email").
 			Unique(),
+	}
+}
+
+func (User) Edges() []ent.Edge {
+	return []ent.Edge{
+		edge.To("received_message", Message.Type),
+		edge.To("sent_message", Message.Type),
 	}
 }

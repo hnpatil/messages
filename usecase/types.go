@@ -61,4 +61,7 @@ type Users interface {
 }
 
 type Messages interface {
+	SendMessage(ctx Context, recipientID string, text string) (*entity.Message, error)
+	ListConversations(ctx Context) ([]*entity.Conversation, error)
+	ListMessages(ctx Context, forConversation string) ([]*entity.Message, error)
 }
