@@ -5,11 +5,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/hnpatil/messages/utils/config"
+	"github.com/loopfz/gadgeto/tonic"
 	"github.com/sirupsen/logrus"
 	ginlogrus "github.com/toorop/gin-logrus"
 )
 
 func NewEngine(logger logrus.FieldLogger) *gin.Engine {
+	tonic.SetErrorHook(tonicErrorHook)
 	engine := gin.New()
 
 	engine.Use(loggerMiddleware(logger))

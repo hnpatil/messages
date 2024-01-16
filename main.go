@@ -49,5 +49,6 @@ func usecases() fx.Option {
 func repositories() fx.Option {
 	return fx.Provide(
 		repository.NewAuthCodes,
+		repository.NewUsers,
 	)
 }

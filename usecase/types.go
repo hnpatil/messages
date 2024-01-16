@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/hnpatil/messages/entity"
 	"github.com/sirupsen/logrus"
 )
 
@@ -56,6 +57,7 @@ type Auth interface {
 }
 
 type Users interface {
+	CreateUser(ctx Context, firstName string, lastName string) (*entity.User, error)
 }
 
 type Messages interface {

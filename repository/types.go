@@ -13,6 +13,7 @@ type AuthCodes interface {
 }
 
 type Users interface {
+	CreateUser(ctx context.Context, firstName string, lastName string, email string) (*entity.User, error)
 }
 
 type Messages interface {
