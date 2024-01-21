@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/google/uuid"
 	"github.com/hnpatil/messages/entity"
 	"github.com/hnpatil/messages/repository"
 )
@@ -76,5 +77,7 @@ func (m *messagesImpl) getConversationID(usr ...*entity.User) string {
 		convID = fmt.Sprintf("%s%s", convID, it.Email)
 	}
 
-	return convID
+	id := uuid.NewSHA1(uuid.UUID{}, []byte(convID))
+
+	return id.String()
 }

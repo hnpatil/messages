@@ -53,6 +53,9 @@ func (m *messagesImpl) CreateMessage(ctx context.Context, message *entity.Messag
 		return nil, err
 	}
 
+	msg.Edges.Sender = message.Edges.Sender
+	msg.Edges.Recipient = message.Edges.Recipient
+
 	if err = tx.Commit(); err != nil {
 		return nil, err
 	}
@@ -72,7 +75,12 @@ func (m *messagesImpl) ListConversations(ctx context.Context, usr *entity.User) 
 		).
 		Order(conversation.ByUpdatedAt(
 			sql.OrderDesc(),
-		)).WithMessages(func(mq *entity.MessageQuery) { mq.Order(message.ByCreatedAt(sql.OrderDesc())).Limit(1) }).
+		)).WithMessages(func(mq *entity.MessageQuery) {
+		mq.WithSender().
+			WithRecipient().
+			Order(message.ByCreatedAt(sql.OrderDesc())).
+			Limit(1)
+	}).
 		All(ctx)
 }
 
@@ -85,6 +93,8 @@ func (m *messagesImpl) ListMessages(ctx context.Context, usr *entity.User, convI
 				message.HasSenderWith(user.ID(usr.ID)),
 			),
 		).
+		WithSender().
+		WithRecipient().
 		Order(message.ByCreatedAt(
 			sql.OrderDesc(),
 		)).

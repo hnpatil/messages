@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-messages
+  namespace: messages
+data:
+  VERSION: v1
+  DB_URL: postgresql://messages:messages@database:5432/messages?sslmode=disable
+  AUTH_SECRET: iBcKf16fNhC1H4JcSEZmOnCG8Ki1Dsxm

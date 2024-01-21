@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/hnpatil/messages/entity"
+	"github.com/hnpatil/messages/handler/response"
 	"github.com/hnpatil/messages/usecase"
 	"github.com/hnpatil/messages/utils/api"
 	"github.com/loopfz/gadgeto/tonic"
@@ -28,18 +28,33 @@ type CreateMessageInput struct {
 	Text      string `json:"text" validate:"required"`
 }
 
-func (h *Handler) createMessage(ctx *gin.Context, input *CreateMessageInput) (*entity.Message, error) {
-	return h.messages.SendMessage(usecase.NewContext(ctx), input.Recipient, input.Text)
+func (h *Handler) createMessage(ctx *gin.Context, input *CreateMessageInput) (*response.Message, error) {
+	res, err := h.messages.SendMessage(usecase.NewContext(ctx), input.Recipient, input.Text)
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToMessageResponse(res), nil
 }
 
-func (h *Handler) listConversations(ctx *gin.Context) ([]*entity.Conversation, error) {
-	return h.messages.ListConversations(usecase.NewContext(ctx))
+func (h *Handler) listConversations(ctx *gin.Context) ([]*response.Conversation, error) {
+	res, err := h.messages.ListConversations(usecase.NewContext(ctx))
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListConversationsResponse(res), nil
 }
 
 type ListMessagesInput struct {
 	ConvID string `path:"conv_id" validate:"required"`
 }
 
-func (h *Handler) listMessages(ctx *gin.Context, input *ListMessagesInput) ([]*entity.Message, error) {
-	return h.messages.ListMessages(usecase.NewContext(ctx), input.ConvID)
+func (h *Handler) listMessages(ctx *gin.Context, input *ListMessagesInput) ([]*response.Message, error) {
+	res, err := h.messages.ListMessages(usecase.NewContext(ctx), input.ConvID)
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListMessagesResponse(res), nil
 }

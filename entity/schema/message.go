@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+	"github.com/google/uuid"
 )
 
 type Message struct {
@@ -15,6 +16,9 @@ type Message struct {
 
 func (Message) Fields() []ent.Field {
 	return []ent.Field{
+		field.UUID("id", uuid.UUID{}).
+			Default(uuid.New).
+			StorageKey("oid"),
 		field.Time("created_at").
 			Default(time.Now()).
 			Immutable(),

@@ -10,3 +10,7 @@ lint:
 vendors:
 	go mod download
 	go mod tidy
+
+.PHONY: build-app
+build-app:
+	docker build --tag messages .
