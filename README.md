@@ -10,14 +10,12 @@ brew install --cask docker
 ```
 
 ### Spining up the local cluster
-
 Open docker for desktop and enable the kubernetes engine. To do so:
 
 1. Go to Settings -> Kubernetes -> enable Kubernetes ✅
 2. Restart docker desktop
 
 ### Setting the kubectl context right
-
 If you have already installed kubectl and it is pointing to some other environment, such as minikube or a EKS cluster, ensure you change the context so that kubectl is pointing to docker-desktop:
 
 ```bash
@@ -26,6 +24,12 @@ If you have already installed kubectl and it is pointing to some other environme
 ```
 
 ### Deploying applications
+Build container:
+```bash
+make build-app
+```
+
+Deploy to local k8s cluster:
 ```bash
  cd deployment
  make deploy-local
@@ -38,6 +42,7 @@ To access API server at localhost:8080
 ```
 
 ## Make targets
+
 Here is a list of all available make targets:
 
 - `generate`: Generate golang code
